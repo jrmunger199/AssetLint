@@ -1,0 +1,34 @@
+{
+  "name": "Hero Pack",
+  "version": "1.2.0",
+  "assets": [
+    {
+      "id": "tex.hero.diffuse",
+      "path": "textures/hero_diffuse.png",
+      "type": "texture",
+      "sizeBytes": 2048,
+      "tags": ["hero", "character"]
+    },
+    {
+      "id": "mesh.hero.body",
+      "path": "meshes/hero_body.fbx",
+      "type": "mesh",
+      "sizeBytes": 4096,
+      "tags": ["hero"]
+    },
+    {
+      "id": "mat.hero.main",
+      "path": "materials/hero_main.mat",
+      "type": "material",
+      "sizeBytes": 512,
+      "dependencies": ["tex.hero.diffuse"]
+    },
+    {
+      "id": "script.hero.controller",
+      "path": "scripts/hero_controller.cs",
+      "type": "script",
+      "sizeBytes": 256,
+      "dependencies": ["mesh.hero.body", "mat.hero.main"]
+    }
+  ]
+}

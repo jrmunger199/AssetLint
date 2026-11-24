@@ -1,0 +1,11 @@
+{
+  // Picked up automatically because it sits next to the manifest.
+  "namingPattern": "^[A-Z][A-Za-z0-9]+$",
+  "knownTypes": ["texture", "mesh", "sound"],
+  "maxSizeBytes": { "texture": 1048576 },
+  "rules": {
+    "naming-convention": { "severity": "error" },
+    "unknown-type": { "enabled": false },
+    "duplicate-path": { "severity": "info" }
+  }
+}

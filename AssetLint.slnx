@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/AssetLint.Cli/AssetLint.Cli.csproj" />
+    <Project Path="src/AssetLint.Core/AssetLint.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/AssetLint.Tests/AssetLint.Tests.csproj" />
+  </Folder>
+</Solution>

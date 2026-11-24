@@ -1,0 +1,57 @@
+{
+  // Comments and trailing commas are allowed in manifests.
+  "name": "Hero Pack (broken)",
+  "version": "1.3.0-wip",
+  "assets": [
+    {
+      "id": "tex.hero.diffuse",
+      "path": "textures/hero_diffuse.png",
+      "type": "texture",
+      "sizeBytes": 2048
+    },
+    {
+      "id": "TEX.HERO.DIFFUSE",
+      "path": "textures/hero_diffuse_v2.png",
+      "type": "texture",
+      "sizeBytes": 2048
+    },
+    {
+      "id": "mesh.hero.body",
+      "path": "meshes\\hero_body.fbx",
+      "type": "mesh",
+      "sizeBytes": 9999,
+      "dependencies": ["mat.hero.main"]
+    },
+    {
+      "id": "mat.hero.main",
+      "path": "materials/hero_main.mat",
+      "type": "material",
+      "sizeBytes": 512,
+      "dependencies": ["mesh.hero.body", "tex.hero.normal"]
+    },
+    {
+      "id": "HeroTrailFx",
+      "path": "fx/trail.fx",
+      "type": "particles",
+      "sizeBytes": 128
+    },
+    {
+      "id": "tex.hero.skybox",
+      "path": "textures/skybox.png",
+      "type": "texture",
+      "sizeBytes": 41943040
+    },
+    {
+      "id": "data.secrets",
+      "path": "../secrets.txt",
+      "type": "data",
+      "sizeBytes": -1
+    },
+    {
+      "id": "audio.hero.theme",
+      "path": "textures/hero_diffuse.png",
+      "type": "audio",
+      "sizeBytes": 1024,
+    },
+  ]
+}

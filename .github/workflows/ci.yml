@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - run: dotnet build --configuration Release
+      - run: dotnet test --configuration Release --no-build
+      - name: Pack the dotnet tool
+        if: matrix.os == 'ubuntu-latest'
+        run: dotnet pack src/AssetLint.Cli --configuration Release --no-build --output artifacts
+      - uses: actions/upload-artifact@v4
+        if: matrix.os == 'ubuntu-latest'
+        with:
+          name: assetlint-nupkg
+          path: artifacts/*.nupkg
+
+  # Dogfooding: lint the sample manifest and publish the results as SARIF code-scanning alerts.
+  code-scanning-demo:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - run: >
+          dotnet run --project src/AssetLint.Cli --configuration Release --
+          validate samples/hero-pack/broken.manifest.json
+          --format sarif --output assetlint.sarif --fail-on none
+      - uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: assetlint.sarif

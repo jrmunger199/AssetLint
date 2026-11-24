@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The same clean manifest as clean.manifest.json, in XML form. -->
+<manifest name="Hero Pack" version="1.2.0">
+  <asset id="tex.hero.diffuse" path="textures/hero_diffuse.png" type="texture" sizeBytes="2048">
+    <tag>hero</tag>
+    <tag>character</tag>
+  </asset>
+  <asset id="mesh.hero.body" path="meshes/hero_body.fbx" type="mesh" sizeBytes="4096">
+    <tag>hero</tag>
+  </asset>
+  <asset id="mat.hero.main" path="materials/hero_main.mat" type="material" sizeBytes="512">
+    <dependency>tex.hero.diffuse</dependency>
+  </asset>
+  <asset id="script.hero.controller" path="scripts/hero_controller.cs" type="script" sizeBytes="256">
+    <dependency>mesh.hero.body</dependency>
+    <dependency>mat.hero.main</dependency>
+  </asset>
+</manifest>

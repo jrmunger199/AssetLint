@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>assetlint</AssemblyName>
+    <RootNamespace>AssetLint.Cli</RootNamespace>
+    <Description>Command-line tool for validating asset manifests.</Description>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>assetlint</ToolCommandName>
+    <PackageId>AssetLint</PackageId>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.CommandLine" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AssetLint.Core\AssetLint.Core.csproj" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+</Project>

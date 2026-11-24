@@ -1,0 +1,8 @@
+{
+  "name": "Custom Config Demo",
+  "assets": [
+    { "id": "HeroDiffuse", "path": "textures/hero.png", "type": "texture", "sizeBytes": 2097152 },
+    { "id": "hero_normal", "path": "textures/hero.png", "type": "texture", "sizeBytes": 1024 },
+    { "id": "Footsteps", "path": "audio/steps.ogg", "type": "audio", "sizeBytes": 4096 }
+  ]
+}
