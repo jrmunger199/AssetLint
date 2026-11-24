@@ -197,7 +197,10 @@ var report = new Validator([.. RuleCatalog.BuiltIn, new NoDataTypeRule()]).Valid
 ```bash
 dotnet build
 dotnet test      # xUnit v3 on Microsoft.Testing.Platform (opted in via global.json)
+dotnet format whitespace AssetLint.slnx --verify-no-changes
 ```
+
+CI also fails the build on known-vulnerable dependencies, runs CodeQL, and Dependabot keeps packages current.
 
 ## License
 

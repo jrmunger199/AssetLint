@@ -1,0 +1,6 @@
+# Keep line endings identical on every OS so formatters and diffs agree.
+* text=auto eol=lf
+
+# The sample asset files stand in for real binaries whose size the manifests declare, so git must never touch their
+# bytes. (Without this, a checkout that converts line endings makes every file bigger and every size check fail.)
+samples/**/assets/** -text

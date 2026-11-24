@@ -5,6 +5,9 @@ on:
     branches: [main]
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   build-and-test:
     strategy:
@@ -13,20 +16,46 @@ jobs:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
         with:
           dotnet-version: 10.0.x
+      - name: Formatting (whitespace and line endings)
+        if: matrix.os == 'ubuntu-latest'
+        run: dotnet format whitespace AssetLint.slnx --verify-no-changes
       - run: dotnet build --configuration Release
       - run: dotnet test --configuration Release --no-build
       - name: Pack the dotnet tool
         if: matrix.os == 'ubuntu-latest'
         run: dotnet pack src/AssetLint.Cli --configuration Release --no-build --output artifacts
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: matrix.os == 'ubuntu-latest'
         with:
           name: assetlint-nupkg
           path: artifacts/*.nupkg
+
+  # Fails the build when a dependency has a published security advisory.
+  dependency-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
+        with:
+          dotnet-version: 10.0.x
+      - name: Every action is pinned to a full commit SHA
+        run: |
+          if grep -rnE "uses: [^@]+@v[0-9]" .github/workflows; then
+            echo "::error::Pin actions to a full commit SHA, not a movable tag"
+            exit 1
+          fi
+      - name: NuGet packages (including transitive)
+        run: |
+          dotnet restore
+          dotnet list package --vulnerable --include-transitive 2>&1 | tee audit.txt
+          if grep -q "has the following vulnerable packages" audit.txt; then
+            echo "::error::Vulnerable NuGet packages found"
+            exit 1
+          fi
 
   # Dogfooding: lint the sample manifest and publish the results as SARIF code-scanning alerts.
   code-scanning-demo:
@@ -36,14 +65,14 @@ jobs:
       contents: read
       security-events: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
         with:
           dotnet-version: 10.0.x
       - run: >
           dotnet run --project src/AssetLint.Cli --configuration Release --
           validate samples/hero-pack/broken.manifest.json
           --format sarif --output assetlint.sarif --fail-on none
-      - uses: github/codeql-action/upload-sarif@v3
+      - uses: github/codeql-action/upload-sarif@915412ff23e8b7659517e607487dbeae018f2934 # v4.39.5
         with:
           sarif_file: assetlint.sarif

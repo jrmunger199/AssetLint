@@ -1,3 +1,3 @@
-﻿using AssetLint.Cli;
+using AssetLint.Cli;
 
 return await CliApp.RunAsync(args);
